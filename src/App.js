@@ -37,19 +37,27 @@ class App extends Component {
     // Step 1-front end request
     // create an axios request and hit the test endpoint when the page loads
     // set the response to the 'test' property on state
-   
+     axios.get('/api/test')
+      .then((response) => {
+        this.setState({test: response.data})
+      })
+
 
 
     // Step 2-front end request
     // hit the get cards endpoint so that our cards show up
     // set the response to the 'cards' property on state
-   
+   axios.get('/api/cards').then((response) => {
+    this.setState({cards: response.data})
+   })
 
 
     // Step 3-front end request
     // hit the get endpoint that will send us the users.
     // set the response to the 'users' property on state
-   
+   axios.get('/api/users').then((response) => {
+    this.setState({users: response.data})
+   })
 
 
 
@@ -61,7 +69,10 @@ class App extends Component {
   // set the response to update the 'clicked' property on state
   handleClick() {
     console.log('clicked the button!');
-      
+      axios.get('/api/string')
+        .then((response) => {
+          this.setState({clicked: response.data})
+        })
 
   }
 
@@ -72,8 +83,12 @@ class App extends Component {
   // whenever someone types into the input box
   // set the response to update the 'input' property on state
   handleChange(e) {
+    let words = e.target.value;
     console.log('you changed something!');
-      
+      axios.post(`/api/post`, {words})
+        .then((response) => {
+          this.setState({input: response.data})
+        })
   }
 
 
@@ -86,7 +101,10 @@ class App extends Component {
     let { id, name } = this.state;
    // leave the stuff above this line
    // write code here:
-    
+    axios.put(`/api/users/${id}`, {name})
+      .then((response) => {
+        this.setState({users: response.data})
+      }).catch((error) => console.log('error!'))
   }
 
 
@@ -95,9 +113,12 @@ class App extends Component {
   // create an input to handle clicking on a card to remove it
   // update the cards array with the response from state
   handleDelete(index) {
+
     console.log('handling the delete');
-    
-    
+    axios.delete(`/api/users/${index}`)
+      .then((response) => {
+        this.setState({cards: response.data})
+      })
   }
 
   ///////////////////////\\\\\\\\\\\\\\\\\\\\\\\
